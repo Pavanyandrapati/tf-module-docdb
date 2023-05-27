@@ -2,12 +2,12 @@ variable "tags" {}
 variable "env" {}
 variable "subnets" {}
 variable "name" {
-  default = docdb
+  default = "docdb"
 }
 variable "vpc_id" {}
 variable "allow_app_cidr" {}
 variable "engine_version" {}
 variable "kms_arn" {}
 variable "port_no" {
-  default = 27017
+  default = "27017"
 }
