@@ -11,7 +11,7 @@ resource "aws_security_group" "main" {
   vpc_id      = var.vpc_id
 
   ingress {
-    description      = "DOCDb"
+    description      = "DOCDB"
     from_port        = var.port_no
     to_port          = var.port_no
     protocol         = "tcp"
@@ -25,9 +25,7 @@ resource "aws_security_group" "main" {
     ipv6_cidr_blocks = ["::/0"]
   }
 
-  tags = {
-    Name =  merge(var.tags, { Name = "${var.name}-${var.env}-sg" })
-  }
+  tags = merge(var.tags, { Name = "${var.name}-${var.env}-sg" })
 }
 
 
@@ -52,5 +50,13 @@ resource "aws_docdb_cluster" "docdb" {
   kms_key_id = var.kms_arn
   port = var.port_no
   vpc_security_group_ids = [aws_security_group.main.id]
+  tags                            = merge(var.tags, { Name = "${var.name}-${var.env}" })
+
 }
 
+#resource "aws_docdb_cluster_instance" "cluster_instances" {
+#  count              = var.instance_count
+#  identifier         = "${var.name}-${var.env}-${count.index}"
+#  cluster_identifier = aws_docdb_cluster.main.id
+#  instance_class     = var.instance_class
+#}
