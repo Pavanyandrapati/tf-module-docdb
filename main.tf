@@ -35,7 +35,7 @@ resource "aws_docdb_cluster_parameter_group" "main" {
   description = "${var.name}-${var.env}"
 }
 
-resource "aws_docdb_cluster" "docdb" {
+resource "aws_docdb_cluster" "main" {
   cluster_identifier      = "${var.name}-${var.env}"
   engine                  = "docdb"
   engine_version          = var.engine_version
@@ -54,9 +54,9 @@ resource "aws_docdb_cluster" "docdb" {
 
 }
 
-#resource "aws_docdb_cluster_instance" "cluster_instances" {
-#  count              = var.instance_count
-#  identifier         = "${var.name}-${var.env}-${count.index}"
-#  cluster_identifier = aws_docdb_cluster.main.id
-#  instance_class     = var.instance_class
-#}
+resource "aws_docdb_cluster_instance" "cluster_instances" {
+  count              = var.instance_count
+  identifier         = "${var.name}-${var.env}-${count.index}"
+  cluster_identifier = aws_docdb_cluster.main.id
+  instance_class     = var.instance_class
+}
